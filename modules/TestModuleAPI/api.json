@@ -1,8 +1,8 @@
 {
     "kind": "INC#restDescription",
     "discoveryVersion": "v1",
-    "id": "Telefonica MockService:v1",
-    "name": "TelefonicaMockService",
+    "id": "FakeService:v1",
+    "name": "FakeService",
     "version": "1.0",
     "title": "INC Mock Service",
     "description": "INC Mock Service",
