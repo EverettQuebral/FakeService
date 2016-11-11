@@ -1,5 +1,5 @@
 {
-  "name": "fake-server",
+  "name": "fake-service",
   "version": "1.0.0",
   "description": "Fake Server",
   "main": "index.js",
