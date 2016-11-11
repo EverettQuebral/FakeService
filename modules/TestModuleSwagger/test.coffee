@@ -14,11 +14,11 @@ baseUrl = '/TestModuleSwagger/v1'
 
 describe 'Product Test', ->
     it 'products', (done) ->
-        console.log app._router.stack
+        # console.log app._router.stack
         request(app)
                 .get(baseUrl + '/products/testid')
                 .expect 200, (err, res) ->
-            if err 
+            if err
                 return done err
             console.log res.body
             return done()

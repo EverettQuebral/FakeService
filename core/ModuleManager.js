@@ -134,7 +134,6 @@ class ModuleManager {
                 debug('NO DEFINITION OF API for the module ' + module)
             }
         })
-        return app
     }
 
     /**
