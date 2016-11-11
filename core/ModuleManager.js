@@ -11,9 +11,8 @@ let path = require('path')
 
 class ModuleManager {
 
-    constructor(app){
+    constructor(){
         debug('this is module manager')
-        this.app = app
     }
 
     mountAPI(app, api, module){
@@ -94,6 +93,8 @@ class ModuleManager {
         })
         debug(module + api.basePath + '/', moduleRouter._router.stack)
         app.use('/' + module + api.basePath + '/' , moduleRouter)
+
+        return app
     }
 
     /**
@@ -133,6 +134,7 @@ class ModuleManager {
                 debug('NO DEFINITION OF API for the module ' + module)
             }
         })
+        return app
     }
 
     /**
@@ -160,6 +162,13 @@ class ModuleManager {
             debug('files ', file)
             return fs.statSync(path.join(modulesPath, file)).isDirectory()
         })
+    }
+
+    /**
+     * for testing the modules
+     */
+    getApp(){
+        return this.app
     }
 }
 
