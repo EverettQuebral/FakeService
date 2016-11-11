@@ -1,0 +1,82 @@
+{
+    "kind": "INC#restDescription",
+    "discoveryVersion": "v1",
+    "id": "Telefonica MockService:v1",
+    "name": "TelefonicaMockService",
+    "version": "1.0",
+    "title": "INC Mock Service",
+    "description": "INC Mock Service",
+    "documentationLink": " ../../README.md",
+    "protocol": "rest",
+    "rootUrl": "",
+    "servicePath": "/",
+    "auth": {
+    },
+    "resources": {
+        "token":{
+            "methods":{
+                "locales" : {
+                    "id" : "locales",
+                    "path" : "locales",
+                    "httpMethod" : "GET",
+                    "description" : "Get Locales",
+                    "response" : {
+                        "$ref" : "INCDS"
+                    }
+                },
+                "locales-by-position" : {
+                    "id" : "locale",
+                    "path" : "locales/{latitude}/{longitude}/{radius}",
+                    "httpMethod" : "GET",
+                    "description" : "Get Locales",
+                    "parameters" : {
+                        "latitude" :{
+                            "type" : "String",
+                            "description" : "The Latitude of the location represented as string",
+                            "location":"path"
+                        },
+                        "longitude" : {
+                            "type" : "String",
+                            "description" : "The longitude of the location represented as string",
+                            "location":"path"
+                        },
+                        "radius" : {
+                            "type" : "String",
+                            "description" : "The radius of the search location represented as string",
+                            "location":"path"
+                        }
+                    },
+                    "response" : {
+                        "$ref" : "INCDS"
+                    }
+                },
+                "locale-by-name" : {
+                    "id" : "locale.get",
+                    "path" : "locale/{name}/{district}/{address}",
+                    "httpMethod" : "GET",
+                    "description" : "Get Locales",
+                    "parameters" : {
+                        "name" :{
+                            "type" : "String",
+                            "description" : "Name of the Locale",
+                            "location":"path"
+                        },
+                        "district" : {
+                            "type" : "String",
+                            "description" : "The District of the locale",
+                            "location" : "path"
+                        },
+                        "address" : {
+                            "type" : "String",
+                            "description" : "The address of the locale, combination of address1 city state country",
+                            "location":"path"
+                        }
+                    },
+                    "response" : {
+                        "$ref" : "INCDS"
+                    }
+                }
+            }
+        }
+    }
+}

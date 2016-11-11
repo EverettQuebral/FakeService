@@ -1,0 +1,14 @@
+{
+    "type" : "object",
+    "properties" : {
+        "name" : {
+            "type" : "string",
+            "x-faker" : "name.findName"
+        },
+        "email" : {
+            "type" : "string",
+            "x-faker" : "internet.email"
+        }
+    },
+    "required" : [ "name", "email" ]
+}
