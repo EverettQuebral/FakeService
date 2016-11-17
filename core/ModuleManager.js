@@ -56,7 +56,7 @@ class ModuleManager {
             debug('servicepath mount ' , '/'+ module + api.servicePath, moduleRouter._router.stack)
             app.use('/' + module + api.servicePath, moduleRouter)
         })
-        
+
         return app
     }
 
@@ -116,26 +116,29 @@ class ModuleManager {
     /**
      * responsible for finding all the modules that are available
      */
-    mount(app){
-        // app.use('/testmodule', TestModule.test)    // this line works for now
-
-        debug('modules here', this.findModules('./modules'));
-        // find all modules
-        let modules = this.findModules('./modules')
-        modules.forEach((module) => {
-            // load the api.json or the swagger.yaml
-            if (fs.existsSync(__dirname + '/../modules/' + module + '/api.json')){
-                let api = require('../modules/' + module + '/api.json')
-                this.mountAPI(app, api, module)
-            }
-            else if (fs.existsSync(__dirname + '/../modules/' + module + '/swagger.yaml')) {
-                let api = YAML.load(__dirname + '/../modules/' + module + '/swagger.yaml')
-                this.mountSwagger(app, api, module)
-            }
-            else {
-                debug('NO DEFINITION OF API for the module ' + module)
-            }
-        })
+    mount(app, moduleDirectory){
+        if (moduleDirectory){
+            debug('modules here', this.findModules('./modules'));
+            // find all modules
+            let modules = this.findModules('./modules')
+            modules.forEach((module) => {
+                // load the api.json or the swagger.yaml
+                if (fs.existsSync(__dirname + '/../modules/' + module + '/api.json')){
+                    let api = require('../modules/' + module + '/api.json')
+                    this.mountAPI(app, api, module)
+                }
+                else if (fs.existsSync(__dirname + '/../modules/' + module + '/swagger.yaml')) {
+                    let api = YAML.load(__dirname + '/../modules/' + module + '/swagger.yaml')
+                    this.mountSwagger(app, api, module)
+                }
+                else {
+                    debug('NO DEFINITION OF API for the module ' + module)
+                }
+            })
+        }
+        else {
+            // module directory set by user
+        }
     }
 
     /**

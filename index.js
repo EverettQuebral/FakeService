@@ -9,8 +9,8 @@ let path = require('path')
 
 app.set('port', port)
 
-let mm = new ModuleManager(app)
-mm.mount(app)
+let mm = new ModuleManager()
+mm.mount(app, moduleDirectory)
 
 
 debug(JSON.stringify(app._router.stack,null, 4))
