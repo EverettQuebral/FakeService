@@ -7,7 +7,7 @@ api = require('./api.json')
 
 ModuleManager = require('../../core/ModuleManager')
 moduleManager = new ModuleManager()
-app = moduleManager.mountAPI(app, api, 'TestModuleAPI')
+app = moduleManager.mountAPI(app, api, 'TestModuleAPI', './modules')
 
 baseUrl = '/TestModuleAPI'
 

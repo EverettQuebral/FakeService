@@ -3,11 +3,12 @@ const express = require('express')
 const BaseModule = require('./BaseModule')
 const YAML = require('yamljs')
 const fs = require('fs')
+const path = require('path')
+
 
 // const Error = require('./Error')
 
 let baseModule = new BaseModule()
-let path = require('path')
 
 class ModuleManager {
 
@@ -15,8 +16,10 @@ class ModuleManager {
         debug('this is module manager')
     }
 
-    mountAPI(app, api, module){
-        let moduleHandler = require('../modules/' + module + '/index')
+    mountAPI(app, api, module, moduleDirectory){
+        let p = path.resolve(moduleDirectory, module, 'index.js')
+        debug('path for module ' + p)
+        let moduleHandler = require(p)
         Object.keys(api.resources).forEach((resource) => {
             debug('resource', resource) //payment
             let moduleRouter = express();
@@ -60,8 +63,9 @@ class ModuleManager {
         return app
     }
 
-    mountSwagger(app, api, module){
-        let moduleHandler = require('../modules/' + module + '/index')
+    mountSwagger(app, api, module, moduleDirectory){
+        let p = path.resolve(moduleDirectory, module, 'index.js')
+        let moduleHandler = require(p)
         let moduleRouter = express();
         // get all the paths
         Object.keys(api.paths).forEach((path) => {
@@ -117,27 +121,44 @@ class ModuleManager {
      * responsible for finding all the modules that are available
      */
     mount(app, moduleDirectory){
+        debug ('mounting ', moduleDirectory)
         if (moduleDirectory){
-            debug('modules here', this.findModules('./modules'));
+            let modules = this.findModules(moduleDirectory)
+            debug('module directory from user ', moduleDirectory, modules)
+            debug('Current path ', moduleDirectory + '/' + module)
+            modules.forEach((module) => {
+                if (fs.existsSync(moduleDirectory + '/' + module + '/api.json')){
+                    debug('Module ' + module + ' found api.json' )
+                    let api = require(path.resolve(moduleDirectory, module, 'api.json'))
+                    this.mountAPI(app, api, module, moduleDirectory)
+                }
+                else if (fs.existsSync( moduleDirectory + '/' + module + '/swagger.yaml')){
+                    debug('Module found swagger ' + module)
+                    let api = YAML.load(path.resolve(moduleDirectory, module, 'swagger.yaml'))
+                    this.mountSwagger(app, api, module, moduleDirectory)
+                }
+                else {
+                    debug('No API Spec for ', module)
+                }
+            })
+        }
+        else {
             // find all modules
             let modules = this.findModules('./modules')
             modules.forEach((module) => {
                 // load the api.json or the swagger.yaml
                 if (fs.existsSync(__dirname + '/../modules/' + module + '/api.json')){
                     let api = require('../modules/' + module + '/api.json')
-                    this.mountAPI(app, api, module)
+                    this.mountAPI(app, api, module, __dirname + '/../modules')
                 }
                 else if (fs.existsSync(__dirname + '/../modules/' + module + '/swagger.yaml')) {
                     let api = YAML.load(__dirname + '/../modules/' + module + '/swagger.yaml')
-                    this.mountSwagger(app, api, module)
+                    this.mountSwagger(app, api, module, __dirname + '/../modules')
                 }
                 else {
                     debug('NO DEFINITION OF API for the module ' + module)
                 }
             })
-        }
-        else {
-            // module directory set by user
         }
     }
 

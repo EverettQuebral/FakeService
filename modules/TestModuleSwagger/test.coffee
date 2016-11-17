@@ -8,7 +8,7 @@ api = YAML.load(__dirname + '/swagger.yaml')
 
 ModuleManager = require('../../core/ModuleManager')
 moduleManager = new ModuleManager()
-app = moduleManager.mountSwagger(app, api, 'TestModuleSwagger')
+app = moduleManager.mountSwagger(app, api, 'TestModuleSwagger', './modules')
 
 baseUrl = '/TestModuleSwagger/v1'
 
