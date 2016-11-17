@@ -1,4 +1,4 @@
-const debug = require('debug')('fakeserver/modulemanager')
+const debug = require('debug')('fake-service/modulemanager')
 const express = require('express')
 const BaseModule = require('./BaseModule')
 const YAML = require('yamljs')
@@ -56,6 +56,8 @@ class ModuleManager {
             debug('servicepath mount ' , '/'+ module + api.servicePath, moduleRouter._router.stack)
             app.use('/' + module + api.servicePath, moduleRouter)
         })
+        
+        return app
     }
 
     mountSwagger(app, api, module){

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const debug = require('debug')('fakeserver/index')
+const debug = require('debug')('fake-service/index')
 const app = express()
 const ModuleManager = require('./core/ModuleManager')
 

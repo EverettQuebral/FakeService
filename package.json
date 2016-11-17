@@ -1,14 +1,18 @@
 {
   "name": "fake-service",
   "version": "1.0.0",
-  "description": "Fake Server",
+  "description": "Fake Service",
   "main": "index.js",
   "scripts": {
     "test": "grunt test",
     "start": "DEBUG=ss/* node index.js"
   },
   "author": "Everett Quebral",
-  "license": "ISC",
+  "license": "MIT",
+  "repository" : {
+    "type" : "git",
+    "url" : "git@github.com:EverettQuebral/FakeService.git"
+  },
   "dependencies": {
     "coffee-script": "^1.11.1",
     "debug": "^2.3.0",
