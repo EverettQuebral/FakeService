@@ -15,7 +15,7 @@ basePath: /v1
 produces:
   - application/json
 paths:
-  /products/{idhere}:
+  /products:
     get:
       summary: Product Types
       description: |

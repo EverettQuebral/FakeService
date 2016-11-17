@@ -114,7 +114,7 @@ class ModuleManager {
 
             let mockedResponse = JSF(api.definitions[object])
 
-
+            debug(mockedResponse)
             return mockedResponse // return the mapped to value object    
         }
 
@@ -131,6 +131,7 @@ class ModuleManager {
                 responseList.push(JSF(api.definitions[object]))
             }
 
+            debug(responseList)
             return responseList
         }
         }
