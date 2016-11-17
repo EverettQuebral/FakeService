@@ -15,7 +15,7 @@
                 "--nolazy"
             ],
             "env": {
-                "DEBUG": "fakeserver/*",
+                "DEBUG": "fake-service/*",
                 "NODE_ENV": "development"
             },
             "console": "internalConsole",

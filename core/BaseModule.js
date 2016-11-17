@@ -3,7 +3,7 @@ class BaseModule {
 
     }
 
-    get(req, res, next){
+    get(req, res, next, responseObject){
         debug(name)
         res.status(200).send('BASE MODULE test message ')
     }

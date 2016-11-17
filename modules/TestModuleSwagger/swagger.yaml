@@ -186,18 +186,23 @@ definitions:
       product_id:
         type: string
         description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
+        x-faker: random.uuid
       description:
         type: string
         description: Description of product.
+        x-faker: lorem.words
       display_name:
         type: string
         description: Display name of product.
+        x-faker: lorem.word
       capacity:
         type: string
         description: Capacity of product. For example, 4 people.
+        x-faker: random.number
       image:
         type: string
         description: Image URL representing the product.
+        x-faker: image.imageUrl
   PriceEstimate:
     type: object
     properties:

@@ -4,6 +4,7 @@ const BaseModule = require('./BaseModule')
 const YAML = require('yamljs')
 const fs = require('fs')
 const path = require('path')
+const JSF = require('json-schema-faker')
 
 
 // const Error = require('./Error')
@@ -67,20 +68,18 @@ class ModuleManager {
         let p = path.resolve(moduleDirectory, module, 'index.js')
         let moduleHandler = require(p)
         let moduleRouter = express();
-        // get all the paths
         Object.keys(api.paths).forEach((path) => {
             debug('SWAGGER path', path)
-            // get all the methods
             Object.keys(api.paths[path]).forEach((method) => {
                 debug(path, method)
-                // apiPath = /product/:id?query1=value1&query2=value2
                 let apiPath = this.constructSwaggerPathParameters(api.paths[path][method].parameters)
-                // mountPath = /product/:id/:pathvariable
                 let mountPath = path.replace(/\{/g, ':').replace(/\}/g, '')
-                // handler for /product get will be product-get
                 let requestHandler = moduleHandler[mountPath.split(':')[0].replace(/\//g, '') + '-' + method]
+
+                // handlers for the response
+                let defaultResponse = api.paths[path][method].responses.default.schema['$ref']
+                let twoHundredResponse = this.constructResponse(api.paths[path][method].responses['200'].schema, api)
                 debug('path to mount', mountPath, requestHandler)
-                // the path can contain path variable which is needed to change from {pathVariable} to :pathVariable
                 switch(method){
                     case 'get' :
                         moduleRouter.get(mountPath, requestHandler || baseModule.get)
@@ -101,6 +100,45 @@ class ModuleManager {
         app.use('/' + module + api.basePath + '/' , moduleRouter)
 
         return app
+    }
+
+    constructResponse(responseObject, api){
+        try {
+        // get the schema -> $ref object and use that to send the response
+        if (responseObject['$ref']){
+            // we should be good
+            // $ref '#/definitions/Product'
+            let definitions = responseObject['$ref'].split('/')
+            let definition = definitions[1]
+            let object = definitions[2]
+
+            let mockedResponse = JSF(api.definitions[object])
+
+
+            return mockedResponse // return the mapped to value object    
+        }
+
+        if (responseObject.type === 'array'){
+            // deal with array here, look for items
+            // let's give the use a random list of responses
+            let definitions = responseObject.items['$ref'].split('/')
+            let definition = definitions[1]
+            let object = definitions[2]
+
+            let responseList = []
+            let length = Math.random() * (10 - 1) + 1
+            for (let i = 0; i < length; i++){
+                responseList.push(JSF(api.definitions[object]))
+            }
+
+            return responseList
+        }
+        }
+        catch(exception){
+            return null
+        }
+
+        return responseObject
     }
 
     /**
