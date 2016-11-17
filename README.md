@@ -20,4 +20,4 @@ https://travis-ci.org/EverettQuebral/FakeService
 
         const FakeService = require('fake-service')(app, path.resolve(__dirname, './mod'))
 
-        console.log('testing')
+        // see modules for information 
