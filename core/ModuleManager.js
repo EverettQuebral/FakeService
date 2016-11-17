@@ -82,16 +82,32 @@ class ModuleManager {
                 debug('path to mount', mountPath, requestHandler)
                 switch(method){
                     case 'get' :
-                        moduleRouter.get(mountPath, requestHandler || baseModule.get)
+                        moduleRouter.get(mountPath, 
+                            requestHandler || baseModule.get, 
+                            function(req, res, next){
+                                res.status(200).send(twoHundredResponse)
+                            })
                         break
                    case 'post' :
-                        moduleRouter.post(mountPath, requestHandler || baseModule.post)
+                        moduleRouter.post(mountPath, 
+                            requestHandler || baseModule.post,
+                            function(req, res, next){
+                                res.status(200).send(twoHundredResponse)
+                            })
                         break
                     case 'put' :
-                        moduleRouter.put(mountPath, requestHandler || baseModule.put)
+                        moduleRouter.put(mountPath, 
+                            requestHandler || baseModule.put,
+                            function(req, res, next){
+                                res.status(200).send(twoHundredResponse)
+                            })
                         break
                     case 'delete' :
-                        moduleRouter.delete(mountPath, requestHandler || baseModule.delete)
+                        moduleRouter.delete(mountPath, 
+                            requestHandler || baseModule.delete,
+                            function(req, res, next){
+                                res.status(200).send(twoHundredResponse)
+                            })
                         break
                 }
             })
@@ -100,6 +116,10 @@ class ModuleManager {
         app.use('/' + module + api.basePath + '/' , moduleRouter)
 
         return app
+    }
+
+    responseCallback(req, res, next, responseObject){
+        res.status(200).send(responseObject)
     }
 
     constructResponse(responseObject, api){
@@ -113,6 +133,7 @@ class ModuleManager {
             let object = definitions[2]
 
             let mockedResponse = JSF(api.definitions[object])
+
 
             debug(mockedResponse)
             return mockedResponse // return the mapped to value object    

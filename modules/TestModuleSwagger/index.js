@@ -5,6 +5,7 @@ let schema = require('./mock.json')
 
 module.exports = {
     'products-get' : (req, res, next) => {
-        res.status(200).send('swagger successful')
+        // res.status(200).send('swagger successful')
+        next()
     }
 }
