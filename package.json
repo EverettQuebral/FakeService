@@ -1,6 +1,6 @@
 {
   "name": "fake-service",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Fake Service",
   "main": "main.js",
   "scripts": {
