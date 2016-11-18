@@ -147,7 +147,7 @@ class ModuleManager {
             let object = definitions[2]
 
             let responseList = []
-            let length = Math.random() * (10 - 1) + 1
+            let length = Math.random() * (50 - 1) + 1
             for (let i = 0; i < length; i++){
                 responseList.push(JSF(api.definitions[object]))
             }
